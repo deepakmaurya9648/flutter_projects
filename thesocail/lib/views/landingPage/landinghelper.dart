@@ -3,7 +3,13 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
+import 'package:thesocail/services/authentication.dart';
+
+import 'package:thesocail/views/homepage/homepage.dart';
+import 'package:thesocail/views/landingPage/landingServices.dart';
 
 class LandingHelpers with ChangeNotifier {
   ConstantColors constantColors = ConstantColors();
@@ -52,6 +58,9 @@ class LandingHelpers with ChangeNotifier {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
+                onTap: () {
+                  emailAuthSheet(context);
+                },
                 child: Container(
                   width: 80,
                   height: 40,
@@ -65,6 +74,16 @@ class LandingHelpers with ChangeNotifier {
                 ),
               ),
               GestureDetector(
+                onTap: () {
+                  print('google signIn!!');
+                  Provider.of<Authentication>(context, listen: false)
+                      .signInWithGoogle()
+                      .whenComplete(() => Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              child: HomePage(),
+                              type: PageTransitionType.leftToRight)));
+                },
                 child: Container(
                   width: 80,
                   height: 40,
@@ -118,5 +137,61 @@ class LandingHelpers with ChangeNotifier {
             ],
           ),
         ));
+  }
+
+  emailAuthSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: constantColors.blueGreyColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150),
+                  child: Divider(
+                    thickness: 4,
+                    color: constantColors.whiteColor,
+                  ),
+                ),
+                Provider.of<LandingService>(context, listen: false)
+                    .passwordLessSignIn(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MaterialButton(
+                      color: constantColors.blueColor,
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: constantColors.whiteColor),
+                      ),
+                      onPressed: () {},
+                    ),
+                    MaterialButton(
+                      color: constantColors.redColor,
+                      child: Text(
+                        "Signin",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: constantColors.whiteColor),
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        });
   }
 }

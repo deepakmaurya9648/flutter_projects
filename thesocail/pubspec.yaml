@@ -34,6 +34,9 @@ dependencies:
   provider: ^4.3.3
   eva_icons_flutter: ^2.0.1
   firebase_auth: ^0.20.0+1
+  cloud_firestore: ^0.16.0
+  image_picker: ^0.6.7+22
+  google_sign_in: ^4.5.9
   
   font_awesome_flutter: ^8.11.0
 

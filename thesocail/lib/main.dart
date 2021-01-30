@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/views/landingPage/landinghelper.dart';
-
+import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/splashScreen/splashScreen.dart';
+import 'package:thesocail/views/landingPage/landingServices.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
               canvasColor: Colors.transparent),
           home: SplashScreen(),
         ),
-        providers: [ChangeNotifierProvider(create: (_) => LandingHelpers())]);
+        providers: [
+          ChangeNotifierProvider(create: (_) => Authentication()),
+          ChangeNotifierProvider(create: (_) => LandingService()),
+          ChangeNotifierProvider(create: (_) => LandingHelpers()),
+        ]);
   }
 }
