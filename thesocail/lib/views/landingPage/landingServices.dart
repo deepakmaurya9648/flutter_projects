@@ -1,9 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
+import 'package:thesocail/services/authentication.dart';
+import 'package:thesocail/views/homepage/homepage.dart';
 
 class LandingService with ChangeNotifier {
+  TextEditingController userEmailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController userPasswordController = TextEditingController();
   ConstantColors constantColors = ConstantColors();
   Widget passwordLessSignIn(BuildContext context) {
     return SizedBox(
@@ -48,6 +55,223 @@ class LandingService with ChangeNotifier {
             }).toList());
           }
         },
+      ),
+    );
+  }
+
+  signInSheet(BuildContext context) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.45,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: constantColors.blueGreyColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12))),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 150),
+                    child: Divider(
+                      thickness: 4,
+                      color: constantColors.whiteColor,
+                    ),
+                  ),
+                  CircleAvatar(
+                    backgroundColor: constantColors.redColor,
+                    radius: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: userNameController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your name..',
+                        hintStyle: TextStyle(
+                            color: constantColors.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: TextStyle(
+                          color: constantColors.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: userEmailController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your email..',
+                        hintStyle: TextStyle(
+                            color: constantColors.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: TextStyle(
+                          color: constantColors.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: userPasswordController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your password..',
+                        hintStyle: TextStyle(
+                            color: constantColors.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: TextStyle(
+                          color: constantColors.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  FloatingActionButton(
+                    backgroundColor: constantColors.redColor,
+                    child: Icon(
+                      FontAwesomeIcons.check,
+                      color: constantColors.whiteColor,
+                    ),
+                    onPressed: () {
+                      if (userEmailController.text.isNotEmpty) {
+                        Provider.of<Authentication>(context, listen: false)
+                            .createAccount(userEmailController.text,
+                                userPasswordController.text)
+                            .whenComplete(() => Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    child: HomePage(),
+                                    type: PageTransitionType.leftToRight)));
+                      } else {
+                        warningText(context, 'Fill all the data!');
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  loginSheet(BuildContext context) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: constantColors.blueGreyColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12))),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 150),
+                    child: Divider(
+                      thickness: 4,
+                      color: constantColors.whiteColor,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: userEmailController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your email..',
+                        hintStyle: TextStyle(
+                            color: constantColors.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: TextStyle(
+                          color: constantColors.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: userPasswordController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your password..',
+                        hintStyle: TextStyle(
+                            color: constantColors.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: TextStyle(
+                          color: constantColors.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: FloatingActionButton(
+                      backgroundColor: constantColors.blueColor,
+                      child: Icon(
+                        FontAwesomeIcons.check,
+                        color: constantColors.whiteColor,
+                      ),
+                      onPressed: () {
+                        if (userEmailController.text.isNotEmpty) {
+                          Provider.of<Authentication>(context, listen: false)
+                              .logIntoAccount(userEmailController.text,
+                                  userPasswordController.text)
+                              .whenComplete(() => Navigator.pushReplacement(
+                                  context,
+                                  PageTransition(
+                                      child: HomePage(),
+                                      type: PageTransitionType.leftToRight)));
+                        } else {
+                          warningText(context, 'Fill all the data!');
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  warningText(BuildContext context, String warning) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: constantColors.darkColor),
+      height: MediaQuery.of(context).size.height * 0.1,
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: Text(
+          warning,
+          style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: constantColors.whiteColor),
+        ),
       ),
     );
   }

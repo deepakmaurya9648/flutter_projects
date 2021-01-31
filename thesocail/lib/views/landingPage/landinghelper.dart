@@ -174,7 +174,10 @@ class LandingHelpers with ChangeNotifier {
                             fontWeight: FontWeight.bold,
                             color: constantColors.whiteColor),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Provider.of<LandingService>(context, listen: false)
+                            .loginSheet(context);
+                      },
                     ),
                     MaterialButton(
                       color: constantColors.redColor,
@@ -185,7 +188,10 @@ class LandingHelpers with ChangeNotifier {
                             fontWeight: FontWeight.bold,
                             color: constantColors.whiteColor),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Provider.of<LandingService>(context, listen: false)
+                            .signInSheet(context);
+                      },
                     )
                   ],
                 )
