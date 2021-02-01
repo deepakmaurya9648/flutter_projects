@@ -6,6 +6,8 @@ import 'package:thesocail/views/landingPage/landinghelper.dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/splashScreen/splashScreen.dart';
 import 'package:thesocail/views/landingPage/landingServices.dart';
+import 'package:thesocail/services/firebaseoperation.dart';
+import 'package:thesocail/views/landingPage/landingutils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
         ),
         providers: [
+          ChangeNotifierProvider(create: (_) => LandingUtils()),
+          ChangeNotifierProvider(create: (_) => FirebaseOperations()),
           ChangeNotifierProvider(create: (_) => Authentication()),
           ChangeNotifierProvider(create: (_) => LandingService()),
           ChangeNotifierProvider(create: (_) => LandingHelpers()),

@@ -10,6 +10,7 @@ import 'package:thesocail/services/authentication.dart';
 
 import 'package:thesocail/views/homepage/homepage.dart';
 import 'package:thesocail/views/landingPage/landingServices.dart';
+import 'package:thesocail/views/landingPage/landingutils.dart';
 
 class LandingHelpers with ChangeNotifier {
   ConstantColors constantColors = ConstantColors();
@@ -168,7 +169,7 @@ class LandingHelpers with ChangeNotifier {
                     MaterialButton(
                       color: constantColors.blueColor,
                       child: Text(
-                        "Login",
+                        "SignIn",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -182,15 +183,15 @@ class LandingHelpers with ChangeNotifier {
                     MaterialButton(
                       color: constantColors.redColor,
                       child: Text(
-                        "Signin",
+                        "SignUp",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: constantColors.whiteColor),
                       ),
                       onPressed: () {
-                        Provider.of<LandingService>(context, listen: false)
-                            .signInSheet(context);
+                        Provider.of<LandingUtils>(context, listen: false)
+                            .selectAvatarOptionsSheet(context);
                       },
                     )
                   ],

@@ -1,17 +1,84 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
+import 'package:thesocail/services/firebaseoperation.dart';
 import 'package:thesocail/views/homepage/homepage.dart';
+import 'package:thesocail/views/landingPage/landingutils.dart';
 
 class LandingService with ChangeNotifier {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
   ConstantColors constantColors = ConstantColors();
+
+  showUserAvatar(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: constantColors.blueGreyColor,
+                borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150),
+                  child: Divider(
+                    thickness: 4,
+                    color: constantColors.whiteColor,
+                  ),
+                ),
+                CircleAvatar(
+                  radius: 80,
+                  backgroundColor: constantColors.transperant,
+                  backgroundImage: FileImage(
+                      Provider.of<LandingUtils>(context, listen: false)
+                          .userAvatar),
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      MaterialButton(
+                          child: Text(
+                            'Reselect',
+                            style: TextStyle(
+                                color: constantColors.whiteColor,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                                decorationColor: constantColors.whiteColor),
+                          ),
+                          onPressed: () {
+                            Provider.of<LandingUtils>(context, listen: false)
+                                .pickUserAvatar(context, ImageSource.gallery);
+                          }),
+                      MaterialButton(
+                          color: constantColors.blueColor,
+                          child: Text('Confirm Image',
+                              style: TextStyle(
+                                color: constantColors.whiteColor,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          onPressed: () {
+                            Provider.of<FirebaseOperations>(context,
+                                    listen: false)
+                                .uploadUserAvatar(context);
+                          })
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   Widget passwordLessSignIn(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.4,
