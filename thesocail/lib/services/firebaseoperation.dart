@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/landingPage/landingutils.dart';
 
 class FirebaseOperations with ChangeNotifier {
@@ -18,5 +20,12 @@ class FirebaseOperations with ChangeNotifier {
     print(
         'the user profile url=>${Provider.of<LandingUtils>(context, listen: false).userAvatarUrl}');
     notifyListeners();
+  }
+
+  Future createUserCollection(BuildContext context, dynamic data) async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(Provider.of<Authentication>(context, listen: false).getuserUid)
+        .set(data);
   }
 }

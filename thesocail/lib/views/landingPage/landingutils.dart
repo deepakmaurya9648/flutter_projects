@@ -61,7 +61,6 @@ class LandingUtils with ChangeNotifier {
                           Provider.of<LandingUtils>(context, listen: false)
                               .pickUserAvatar(context, ImageSource.gallery)
                               .whenComplete(() {
-                            Navigator.of(context).pop();
                             Provider.of<LandingService>(context)
                                 .showUserAvatar(context);
                           });
@@ -77,7 +76,6 @@ class LandingUtils with ChangeNotifier {
                           Provider.of<LandingUtils>(context, listen: false)
                               .pickUserAvatar(context, ImageSource.camera)
                               .whenComplete(() {
-                            Navigator.of(context).pop();
                             Provider.of<LandingService>(context)
                                 .showUserAvatar(context);
                           });

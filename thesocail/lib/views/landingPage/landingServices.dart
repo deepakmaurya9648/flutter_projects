@@ -27,6 +27,7 @@ class LandingService with ChangeNotifier {
                 color: constantColors.blueGreyColor,
                 borderRadius: BorderRadius.circular(15)),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 150),
@@ -44,8 +45,10 @@ class LandingService with ChangeNotifier {
                 ),
                 Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MaterialButton(
+                          color: constantColors.redColor,
                           child: Text(
                             'Reselect',
                             style: TextStyle(
@@ -68,7 +71,8 @@ class LandingService with ChangeNotifier {
                           onPressed: () {
                             Provider.of<FirebaseOperations>(context,
                                     listen: false)
-                                .uploadUserAvatar(context);
+                                .uploadUserAvatar(context)
+                                .whenComplete(() => signInSheet(context));
                           })
                     ],
                   ),
@@ -84,7 +88,7 @@ class LandingService with ChangeNotifier {
       height: MediaQuery.of(context).size.height * 0.4,
       width: MediaQuery.of(context).size.width,
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('allUsers').snapshots(),
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -152,6 +156,9 @@ class LandingService with ChangeNotifier {
                     ),
                   ),
                   CircleAvatar(
+                    backgroundImage: FileImage(
+                        Provider.of<LandingUtils>(context, listen: false)
+                            .getUserAvatar),
                     backgroundColor: constantColors.redColor,
                     radius: 60,
                   ),
@@ -217,7 +224,22 @@ class LandingService with ChangeNotifier {
                         Provider.of<Authentication>(context, listen: false)
                             .createAccount(userEmailController.text,
                                 userPasswordController.text)
-                            .whenComplete(() => Navigator.pushReplacement(
+                            .whenComplete(() {
+                          print('Creating collection!');
+                          Provider.of<FirebaseOperations>(context,
+                                  listen: false)
+                              .createUserCollection(context, {
+                            'userid': Provider.of<Authentication>(context,
+                                    listen: false)
+                                .getuserUid,
+                            'useremail': userEmailController.text,
+                            'username': userNameController.text,
+                            'userimage': Provider.of<LandingUtils>(context,
+                                    listen: false)
+                                .getUserAvatarUrl,
+                            'userpassword': userPasswordController.text
+                          });
+                        }).whenComplete(() => Navigator.pushReplacement(
                                 context,
                                 PageTransition(
                                     child: HomePage(),
