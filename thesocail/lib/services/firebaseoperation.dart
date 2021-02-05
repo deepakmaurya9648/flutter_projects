@@ -6,8 +6,13 @@ import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/landingPage/landingutils.dart';
 
 class FirebaseOperations with ChangeNotifier {
+  UploadTask imageUploadTask;
+  String initUserName, initUserEmail, initUserImage;
+  String get getInitUserName => initUserName;
+  String get getInitUserEmail => initUserEmail;
+  String get getInitUserImage => initUserImage;
+
   Future uploadUserAvatar(BuildContext context) async {
-    UploadTask imageUploadTask;
     Reference imageReference = FirebaseStorage.instance.ref().child(
         'userProfileAvatar/${Provider.of<LandingUtils>(context, listen: false).getUserAvatar.path}/${TimeOfDay.now()}');
 
@@ -27,5 +32,22 @@ class FirebaseOperations with ChangeNotifier {
         .collection('users')
         .doc(Provider.of<Authentication>(context, listen: false).getuserUid)
         .set(data);
+  }
+
+  Future initUserData(BuildContext context) async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(Provider.of<Authentication>(context, listen: false).getuserUid)
+        .get()
+        .then((doc) {
+      print('Fetching user data');
+      initUserName = doc.data()['username'];
+      initUserEmail = doc.data()['useremail'];
+      initUserImage = doc.data()['userimage'];
+      print(initUserName);
+      print(initUserEmail);
+      print(initUserImage);
+      notifyListeners();
+    });
   }
 }

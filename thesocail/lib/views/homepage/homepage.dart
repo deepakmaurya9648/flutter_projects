@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
+import 'package:thesocail/services/firebaseoperation.dart';
 import 'package:thesocail/views/Profile/Profile.dart';
 import 'package:thesocail/views/chatRoom/Chatroom.dart';
 import 'package:thesocail/views/feed/Feed.dart';
@@ -16,6 +17,13 @@ class _HomePageState extends State<HomePage> {
   ConstantColors constantColors = ConstantColors();
   final PageController homepageController = PageController();
   int pageIndex = 0;
+  @override
+  void initState() {
+    Provider.of<FirebaseOperations>(context, listen: false)
+        .initUserData(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +40,6 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar:
             Provider.of<HomepageHelpers>(context, listen: false)
-                .bottomNavBar(pageIndex, homepageController));
+                .bottomNavBar(context, pageIndex, homepageController));
   }
 }
