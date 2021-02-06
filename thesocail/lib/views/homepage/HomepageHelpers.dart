@@ -30,14 +30,18 @@ class HomepageHelpers with ChangeNotifier {
         items: [
           CustomNavigationBarItem(icon: Icon(EvaIcons.home)),
           CustomNavigationBarItem(icon: Icon(Icons.message_rounded)),
-          CustomNavigationBarItem(
-              icon: CircleAvatar(
-            radius: 35,
-            backgroundColor: constantColors.blueGreyColor,
-            backgroundImage: NetworkImage(
-                Provider.of<FirebaseOperations>(context, listen: false)
-                    .getInitUserImage),
-          )),
+          Provider.of<FirebaseOperations>(context, listen: false)
+                      .initUserImage ==
+                  null
+              ? CustomNavigationBarItem(icon: Icon(EvaIcons.person))
+              : CustomNavigationBarItem(
+                  icon: CircleAvatar(
+                  radius: 35,
+                  backgroundColor: constantColors.blueGreyColor,
+                  backgroundImage: NetworkImage(
+                      Provider.of<FirebaseOperations>(context, listen: false)
+                          .initUserImage),
+                )),
         ]);
   }
 }

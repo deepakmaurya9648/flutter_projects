@@ -35,7 +35,7 @@ class FirebaseOperations with ChangeNotifier {
   }
 
   Future initUserData(BuildContext context) async {
-    return FirebaseFirestore.instance
+    return await FirebaseFirestore.instance
         .collection('users')
         .doc(Provider.of<Authentication>(context, listen: false).getuserUid)
         .get()
@@ -49,5 +49,9 @@ class FirebaseOperations with ChangeNotifier {
       print(initUserImage);
       notifyListeners();
     });
+  }
+
+  Future uploadPostData(String postId, dynamic data) async {
+    return FirebaseFirestore.instance.collection('posts').doc(postId).set(data);
   }
 }

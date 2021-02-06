@@ -10,6 +10,8 @@ import 'package:thesocail/services/firebaseoperation.dart';
 import 'package:thesocail/views/landingPage/landingutils.dart';
 import 'package:thesocail/views/homepage/HomepageHelpers.dart';
 import 'package:thesocail/views/Profile/profilehelpers.dart';
+import 'package:thesocail/utils/uploadPost.dart';
+import 'package:thesocail/views/feed/feedHelpers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
         ),
         providers: [
+          ChangeNotifierProvider(create: (_) => FeedHelpers()),
+          ChangeNotifierProvider(create: (_) => UploadPost()),
           ChangeNotifierProvider(create: (_) => ProfileHelpers()),
           ChangeNotifierProvider(create: (_) => HomepageHelpers()),
           ChangeNotifierProvider(create: (_) => LandingUtils()),

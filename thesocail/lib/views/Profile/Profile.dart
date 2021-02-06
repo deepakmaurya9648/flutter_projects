@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/Profile/profilehelpers.dart';
-import 'package:thesocail/views/landingPage/landingpage.dart';
 
 class Profile extends StatelessWidget {
   final ConstantColors constantColors = ConstantColors();
