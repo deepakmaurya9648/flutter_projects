@@ -18,7 +18,7 @@ class UploadPost with ChangeNotifier {
   File uploadPostImage;
   File get getUploadPostImage => uploadPostImage;
   String uploadPostImageUrl;
-  String get geuploadPostImageUrl => uploadPostImageUrl;
+  String get getuploadPostImageUrl => uploadPostImageUrl;
   UploadTask imagePostUploadTask;
 
 //Pick Images to gallery or camera---------------------------------------------------
@@ -283,6 +283,7 @@ class UploadPost with ChangeNotifier {
                         'username': Provider.of<FirebaseOperations>(context,
                                 listen: false)
                             .getInitUserName,
+                        'postimage': getuploadPostImageUrl,
                         'userimage': Provider.of<FirebaseOperations>(context,
                                 listen: false)
                             .getInitUserImage,
