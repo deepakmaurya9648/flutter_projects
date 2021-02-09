@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
+import 'package:thesocail/utils/postOptions.dart';
 import 'package:thesocail/utils/uploadPost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -144,7 +145,7 @@ class FeedHelpers with ChangeNotifier {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    padding: const EdgeInsets.only(top: 10, left: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -154,23 +155,67 @@ class FeedHelpers with ChangeNotifier {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  print('add likes..');
+                                  Provider.of<PostFunctions>(context,
+                                          listen: false)
+                                      .addLike(
+                                          context,
+                                          documentSnapshot.data()['caption'],
+                                          Provider.of<Authentication>(context,
+                                                  listen: false)
+                                              .getuserUid);
+                                },
+                                onLongPress: () {
+                                  Provider.of<PostFunctions>(context,
+                                          listen: false)
+                                      .showLikes(context,
+                                          documentSnapshot.data()['caption']);
+                                },
                                 child: Icon(
                                   FontAwesomeIcons.heart,
                                   color: constantColors.redColor,
                                   size: 22,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                  '0',
-                                  style: TextStyle(
-                                      color: constantColors.whiteColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
+                              StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('posts')
+                                      .doc(documentSnapshot.data()['caption'])
+                                      .collection('likes')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Provider.of<PostFunctions>(context,
+                                                    listen: false)
+                                                .showLikes(
+                                                    context,
+                                                    documentSnapshot
+                                                        .data()['caption']);
+                                          },
+                                          child: Text(
+                                            snapshot.data.docs.length
+                                                .toString(),
+                                            style: TextStyle(
+                                                color:
+                                                    constantColors.whiteColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  })
                             ],
                           ),
                         ),
@@ -180,7 +225,14 @@ class FeedHelpers with ChangeNotifier {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Provider.of<PostFunctions>(context,
+                                          listen: false)
+                                      .showCommentsSheet(
+                                          context,
+                                          documentSnapshot,
+                                          documentSnapshot.data()['caption']);
+                                },
                                 child: Icon(
                                   FontAwesomeIcons.comment,
                                   color: constantColors.yellowColor,
@@ -188,15 +240,37 @@ class FeedHelpers with ChangeNotifier {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                  '0',
-                                  style: TextStyle(
-                                      color: constantColors.whiteColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('posts')
+                                          .doc(documentSnapshot
+                                              .data()['caption'])
+                                          .collection('comments')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        } else {
+                                          return Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              snapshot.data.docs.length
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color:
+                                                      constantColors.whiteColor,
+                                                  fontSize: 18,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                          );
+                                        }
+                                      })),
                             ],
                           ),
                         ),
@@ -230,7 +304,7 @@ class FeedHelpers with ChangeNotifier {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    padding: const EdgeInsets.only(top: 10, left: 5),
                     child: Row(
                       children: [
                         Text(

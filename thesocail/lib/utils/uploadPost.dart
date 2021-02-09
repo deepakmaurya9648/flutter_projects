@@ -181,10 +181,11 @@ class UploadPost with ChangeNotifier {
   //------------edit post sheet------------//
   editPostSheet(BuildContext context) {
     return showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (context) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.85,
+            height: MediaQuery.of(context).size.height * 0.65,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: constantColors.blueGreyColor,

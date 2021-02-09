@@ -8,6 +8,7 @@ import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/services/firebaseoperation.dart';
 import 'package:thesocail/views/homepage/homepage.dart';
+import 'package:thesocail/views/landingPage/landingpage.dart';
 import 'package:thesocail/views/landingPage/landingutils.dart';
 
 class LandingService with ChangeNotifier {
@@ -99,12 +100,50 @@ class LandingService with ChangeNotifier {
                 children:
                     snapshot.data.docs.map((DocumentSnapshot documentSnapshot) {
               return ListTile(
-                trailing: IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.trashAlt,
-                    color: constantColors.redColor,
+                trailing: Container(
+                  height: 40,
+                  width: 110,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.check,
+                            color: constantColors.blueColor,
+                          ),
+                          onPressed: () {
+                            Provider.of<Authentication>(context, listen: false)
+                                .logIntoAccount(
+                                    documentSnapshot.data()['useremail'],
+                                    documentSnapshot.data()['userpassword'])
+                                .whenComplete(() {
+                              Navigator.pushReplacement(
+                                  context,
+                                  PageTransition(
+                                      child: HomePage(),
+                                      type: PageTransitionType.bottomToTop));
+                            });
+                          }),
+                      IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.trashAlt,
+                            color: constantColors.redColor,
+                          ),
+                          onPressed: () {
+                            Provider.of<FirebaseOperations>(context,
+                                    listen: false)
+                                .deleteUserData(
+                                    documentSnapshot.data()['useruid'])
+                                .whenComplete(() {
+                              Navigator.pushReplacement(
+                                  context,
+                                  PageTransition(
+                                      child: LandingPage(),
+                                      type: PageTransitionType.bottomToTop));
+                            });
+                          }),
+                    ],
                   ),
-                  onPressed: () {},
                 ),
                 leading: CircleAvatar(
                   backgroundImage:
