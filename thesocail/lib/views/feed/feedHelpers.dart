@@ -58,7 +58,10 @@ class FeedHelpers with ChangeNotifier {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18), topRight: Radius.circular(18))),
           child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('time', descending: true)
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -78,6 +81,8 @@ class FeedHelpers with ChangeNotifier {
       BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
     return ListView(
       children: snapshot.data.docs.map((DocumentSnapshot documentSnapshot) {
+        Provider.of<PostFunctions>(context, listen: false)
+            .showTimeAgo(documentSnapshot.data()['time']);
         return Column(
           children: [
             Container(
@@ -113,7 +118,7 @@ class FeedHelpers with ChangeNotifier {
                           ),
                         ),
                         Text(
-                          ', 12 hour ago',
+                          ' ,${Provider.of<PostFunctions>(context, listen: false).getImageTimePosted.toString()}',
                           style: TextStyle(
                             color: constantColors.lightColor.withOpacity(0.8),
                           ),

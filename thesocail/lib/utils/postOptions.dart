@@ -5,10 +5,21 @@ import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/services/firebaseoperation.dart';
+import 'package:timeago/timeago.dart' as timeAgo;
 
 class PostFunctions with ChangeNotifier {
   TextEditingController commentController = TextEditingController();
   ConstantColors constantColors = ConstantColors();
+
+  String imageTimePosted;
+  String get getImageTimePosted => imageTimePosted;
+  showTimeAgo(dynamic timeData) {
+    Timestamp time = timeData;
+    DateTime dateTime = time.toDate();
+    imageTimePosted = timeAgo.format(dateTime);
+    print(imageTimePosted);
+    notifyListeners();
+  }
 
   Future addLike(BuildContext context, String postId, String subDocId) async {
     return FirebaseFirestore.instance
@@ -253,7 +264,11 @@ class PostFunctions with ChangeNotifier {
                         FloatingActionButton(
                           onPressed: () {
                             addComment(context, snapshot.data()['caption'],
-                                commentController.text);
+                                    commentController.text)
+                                .whenComplete(() {
+                              commentController.clear();
+                              notifyListeners();
+                            });
                           },
                           backgroundColor: constantColors.greenColor,
                           child: Icon(
