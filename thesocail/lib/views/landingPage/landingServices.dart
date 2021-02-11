@@ -133,7 +133,7 @@ class LandingService with ChangeNotifier {
                             Provider.of<FirebaseOperations>(context,
                                     listen: false)
                                 .deleteUserData(
-                                    documentSnapshot.data()['useruid'])
+                                    documentSnapshot.data()['useruid'], 'users')
                                 .whenComplete(() {
                               Navigator.pushReplacement(
                                   context,
