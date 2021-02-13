@@ -13,6 +13,7 @@ import 'package:thesocail/views/Profile/profilehelpers.dart';
 import 'package:thesocail/utils/uploadPost.dart';
 import 'package:thesocail/views/feed/feedHelpers.dart';
 import 'package:thesocail/utils/postOptions.dart';
+import 'package:thesocail/views/altProfile/alt_profile_helpers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
         ),
         providers: [
+          ChangeNotifierProvider(create: (_) => AltProfilehelpers()),
           ChangeNotifierProvider(create: (_) => PostFunctions()),
           ChangeNotifierProvider(create: (_) => FeedHelpers()),
           ChangeNotifierProvider(create: (_) => UploadPost()),

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/services/firebaseoperation.dart';
+import 'package:thesocail/views/altProfile/alt_profile.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 class PostFunctions with ChangeNotifier {
@@ -138,6 +140,18 @@ class PostFunctions with ChangeNotifier {
                                           padding: const EdgeInsets.only(
                                               top: 8, left: 8),
                                           child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  PageTransition(
+                                                      child: AltProfile(
+                                                          userUid:
+                                                              documentSnapshot
+                                                                      .data()[
+                                                                  'useruid']),
+                                                      type: PageTransitionType
+                                                          .leftToRight));
+                                            },
                                             child: CircleAvatar(
                                               radius: 15,
                                               backgroundColor:
@@ -286,7 +300,7 @@ class PostFunctions with ChangeNotifier {
           );
         });
   }
-////----------------------------------------------show likes---------------------///
+//!----------------------------------------------show likes---------------------///
 
   showLikes(BuildContext context, String postId) {
     return showModalBottomSheet(
@@ -349,7 +363,16 @@ class PostFunctions with ChangeNotifier {
                               color: constantColors.blueColor.withOpacity(0.01),
                               child: ListTile(
                                   leading: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          PageTransition(
+                                              child: AltProfile(
+                                                  userUid: documentSnapshot
+                                                      .data()['useruid']),
+                                              type: PageTransitionType
+                                                  .leftToRight));
+                                    },
                                     child: CircleAvatar(
                                       backgroundColor: constantColors.redColor,
                                       backgroundImage: NetworkImage(

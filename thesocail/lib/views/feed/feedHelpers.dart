@@ -2,12 +2,14 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:thesocail/constant/Constantcolors%20(1).dart';
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/utils/postOptions.dart';
 import 'package:thesocail/utils/uploadPost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:thesocail/views/altProfile/alt_profile.dart';
 
 class FeedHelpers with ChangeNotifier {
   ConstantColors constantColors = ConstantColors();
@@ -95,26 +97,56 @@ class FeedHelpers with ChangeNotifier {
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: [
+                        GestureDetector(
+                            onTap: () {
+                              if (documentSnapshot.data()['useruid'] !=
+                                  Provider.of<Authentication>(context,
+                                          listen: false)
+                                      .getuserUid) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        child: AltProfile(
+                                          userUid: documentSnapshot
+                                              .data()['useruid'],
+                                        ),
+                                        type: PageTransitionType.bottomToTop));
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: CircleAvatar(
+                                backgroundColor: constantColors.redColor,
+                                radius: 20,
+                                backgroundImage: NetworkImage(
+                                    documentSnapshot.data()['userimage']),
+                              ),
+                            )),
                         Padding(
-                          padding: const EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              backgroundColor: constantColors.redColor,
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                  documentSnapshot.data()['userimage']),
+                            onTap: () {
+                              if (documentSnapshot.data()['useruid'] !=
+                                  Provider.of<Authentication>(context,
+                                          listen: false)
+                                      .getuserUid) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        child: AltProfile(
+                                          userUid: documentSnapshot
+                                              .data()['useruid'],
+                                        ),
+                                        type: PageTransitionType.bottomToTop));
+                              }
+                            },
+                            child: Text(
+                              documentSnapshot.data()['username'],
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: constantColors.whiteColor,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            documentSnapshot.data()['username'],
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: constantColors.whiteColor,
-                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         Text(
