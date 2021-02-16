@@ -277,6 +277,10 @@ class LandingService with ChangeNotifier {
                                     listen: false)
                                 .getUserAvatarUrl,
                             'userpassword': userPasswordController.text
+                          }).whenComplete(() {
+                            userNameController.clear();
+                            userEmailController.clear();
+                            userPasswordController.clear();
                           });
                         }).whenComplete(() => Navigator.pushReplacement(
                                 context,

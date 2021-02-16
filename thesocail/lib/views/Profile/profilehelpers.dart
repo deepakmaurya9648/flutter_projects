@@ -86,12 +86,28 @@ class ProfileHelpers with ChangeNotifier {
                           width: 70,
                           child: Column(
                             children: [
-                              Text(
-                                '0',
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: constantColors.whiteColor),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(snapshot.data()['userid'])
+                                    .collection('following')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return Text(
+                                      snapshot.data.docs.length.toString(),
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: constantColors.whiteColor),
+                                    );
+                                  }
+                                },
                               ),
                               Text(
                                 'Followers',
@@ -114,12 +130,28 @@ class ProfileHelpers with ChangeNotifier {
                           width: 70,
                           child: Column(
                             children: [
-                              Text(
-                                '0',
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: constantColors.whiteColor),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(snapshot.data()['userid'])
+                                    .collection('following')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return Text(
+                                      snapshot.data.docs.length.toString(),
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: constantColors.whiteColor),
+                                    );
+                                  }
+                                },
                               ),
                               Text(
                                 'Following',

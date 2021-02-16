@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:thesocail/services/authentication.dart';
 import 'package:thesocail/views/landingPage/landingutils.dart';
 
@@ -71,5 +73,29 @@ class FirebaseOperations with ChangeNotifier {
         .collection('posts')
         .doc(postId)
         .update(data);
+  }
+
+  //!-------------------followers data---------------------------//
+  Future followUser(
+      String followingUid,
+      String followingDocId,
+      dynamic followingData,
+      String followerUid,
+      String followerDocId,
+      dynamic followerData) async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(followingUid)
+        .collection('followers')
+        .doc(followingDocId)
+        .set(followingData)
+        .whenComplete(() {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(followerUid)
+          .collection('following')
+          .doc(followerDocId)
+          .set(followerData);
+    });
   }
 }
