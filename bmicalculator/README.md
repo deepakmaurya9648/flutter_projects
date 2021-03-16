@@ -3,6 +3,7 @@
 A new Flutter project.
 
 ## Getting Started
+<img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
 
 This project is a starting point for a Flutter application.
 
