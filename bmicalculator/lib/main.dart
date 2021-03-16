@@ -1,4 +1,4 @@
-import 'package:bmicalculator/screens/home.dart';
+import 'package:bmicalculator/screens/splashScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: Colors.yellow,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
