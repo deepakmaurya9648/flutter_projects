@@ -3,6 +3,9 @@
 A new Flutter project.
 
 ## Getting Started
+<img src="https://github.com/deepakmaurya9648/flutter_projects/blob/main/bmicalculator/ss/splashScreen.png?raw=true" alt="Splash Screen SS" width="360" height="720">
+<br>
+<img src="https://github.com/deepakmaurya9648/flutter_projects/blob/main/bmicalculator/ss/homeScreen.png?raw=true" alt="Home Screen SS" width="360" height="720">
 
 This project is a starting point for a Flutter application.
 
