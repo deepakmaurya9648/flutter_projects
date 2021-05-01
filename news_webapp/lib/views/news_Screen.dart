@@ -17,11 +17,16 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final listViewModel =
+    var listViewModel =
         Provider.of<NewsArticleListViewModel>(context, listen: false);
+    print(listViewModel.getArticles);
     return Scaffold(
       appBar: AppBar(),
-      body: Center(child: Text(listViewModel.articles.length.toString())),
+      body: Consumer<NewsArticleListViewModel>(
+        builder: (context, provider, chld) => Container(
+          child: Text(listViewModel.articles[0].title),
+        ),
+      ),
     );
   }
 }

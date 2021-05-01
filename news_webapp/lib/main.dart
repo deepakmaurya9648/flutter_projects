@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'FastNews.com',
       theme: ThemeData(),
       home: MultiProvider(providers: [
-        ChangeNotifierProvider.value(value: NewsArticleListViewModel()),
+        ChangeNotifierProvider(create: (_) => NewsArticleListViewModel()),
       ], child: NewsScreen()),
     );
   }

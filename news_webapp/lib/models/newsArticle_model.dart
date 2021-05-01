@@ -15,11 +15,11 @@ class NewsArticle {
       required this.content});
   factory NewsArticle.fromJson(Map<String, dynamic> json) {
     return NewsArticle(
-        title: json['title'],
-        description: json['description'],
-        url: json['url'],
-        urlToImage: json['urlToImage'],
-        publishedAt: json['publishedAt'],
-        content: json['content']);
+        title: json['title'] == null ? "" : json['title'],
+        description: json['description'] == null ? "" : json['description'],
+        url: json['url'] == null ? "" : json['url'],
+        urlToImage: json['urlToImage'] == null ? "" : json['urlToImage'],
+        publishedAt: json['publishedAt'] == null ? "" : json['publishedAt'],
+        content: json['content'] == null ? "" : json['content']);
   }
 }

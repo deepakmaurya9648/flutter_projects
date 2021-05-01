@@ -8,14 +8,14 @@ enum LoadingStatus { completed, searching, empty }
 class NewsArticleListViewModel with ChangeNotifier {
   LoadingStatus loadingStatus = LoadingStatus.empty;
   List<NewsArticleViewModel> articles = <NewsArticleViewModel>[];
-
+  List<NewsArticleViewModel> get getArticles => articles;
   void topHeadlines() async {
     final newsArticle = await WebService().fetchTopHeadlines();
 
-    this.articles = newsArticle
+    articles = newsArticle
         .map((item) => NewsArticleViewModel(newsArticle: item))
         .toList();
-    print(this.articles[0].title);
+    print(articles[0].title);
     notifyListeners();
   }
 }
