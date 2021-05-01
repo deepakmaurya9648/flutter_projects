@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FastNews.com',
       theme: ThemeData(),
+      debugShowCheckedModeBanner: false,
       home: MultiProvider(providers: [
         ChangeNotifierProvider(create: (_) => NewsArticleListViewModel()),
       ], child: NewsScreen()),

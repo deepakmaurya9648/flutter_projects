@@ -29,4 +29,6 @@ class NewsArticleViewModel {
     // return DateFormat.yMMMMEEEEd('en-us').format(dateTime).toString();
     return newsArticle.publishedAt;
   }
+
+  get urlToImage => null;
 }
